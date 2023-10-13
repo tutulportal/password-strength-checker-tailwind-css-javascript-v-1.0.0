@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Validation | Tutul Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                }
+            },
+            darkMode: 'class',
+        }
+    </script>
+</head>
+
+<body>
+    <div class="w-100 h-[100vh] bg-[#161616] flex flex-col justify-center items-center">
+        <div class="w-[300px] pt-2 pb-4 bg-[#262626] rounded-lg shadow-lg shadow-black-500/20">
+            <div class="w-100 text-center mt-4 relative">
+                <input
+                    class="w-[90%] rounded-full border border-0 outline-none focus:ring-transparent bg-[#161616] text-white pl-6 pr-8 font-bold"
+                    type="password" placeholder="Password" id="passwordField">
+                <span class="absolute right-[25px] text-white cursor-pointer top-2/4 translate-y-[-50%]" id="eyeBtn"><i
+                        class="fa-regular fa-eye-slash" id="eyeIcon"></i></span>
+            </div>
+            <div class="w-100 mt-4 flex flex-col px-6">
+                <p id="min8" class="font-bold text-[#444445] my-1"><i class="fa-solid fa-circle-exclamation"></i> At
+                    least 8
+                    Character.
+                </p>
+                <p id="smallerLetter" class="font-bold text-[#444445] my-1"><i
+                        class="fa-solid fa-circle-exclamation"></i> Smaller letter
+                    (a-z)</p>
+                <p id="capitalLetter" class="font-bold text-[#444445] my-1"><i
+                        class="fa-solid fa-circle-exclamation"></i> Capital letter
+                    (A-Z)</p>
+                <p id="numbers" class="font-bold text-[#444445] my-1"><i class="fa-solid fa-circle-exclamation"></i>
+                    Numbers
+                    (1,2,3...)</p>
+                <p id="specialChar" class="font-bold text-[#444445] my-1"><i class="fa-solid fa-circle-exclamation"></i>
+                    Special
+                    Characters (!@#$%...)</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // necessary variables
+        var passwordField = document.getElementById('passwordField');
+        var eyeBtn = document.getElementById('eyeBtn');
+        var eyeIcon = document.getElementById('eyeIcon');
+        var min8 = document.getElementById('min8');
+        var smallerLetter = document.getElementById('smallerLetter');
+        var capitalLetter = document.getElementById('capitalLetter');
+        var numbers = document.getElementById('numbers');
+        var specialChar = document.getElementById('specialChar');
+
+        // eye button click function
+        eyeBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (eyeIcon.classList.contains('fa-eye')) {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+                passwordField.type = "password";
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+                passwordField.type = "text";
+            }
+        });
+
+        // check password condition function
+        function checkCondition(element, regex) {
+            if (regex.test(passwordField.value)) {
+                element.classList.add('text-green-400');
+                element.classList.remove('text-red-400');
+                element.querySelector('.fa-circle-exclamation')?.classList.add('fa-circle-check');
+                element.querySelector('.fa-circle-check')?.classList.remove('fa-circle-exclamation');
+            } else {
+                element.classList.add('text-red-400');
+                element.classList.remove('text-green-400');
+                element.querySelector('.fa-circle-check')?.classList.add('fa-circle-exclamation');
+                element.querySelector('.fa-circle-exclamation')?.classList.remove('fa-circle-check');
+            }
+        }
+
+        // input field live input checker
+        passwordField.addEventListener('input', function () {
+            checkCondition(min8, /^.{8,}$/);
+            checkCondition(smallerLetter, /[a-z]/);
+            checkCondition(capitalLetter, /[A-Z]/);
+            checkCondition(numbers, /\d/);
+            checkCondition(specialChar, /[!@#\$%^&*]/);
+        });
+
+
+    </script>
+</body>
+
+</html>
